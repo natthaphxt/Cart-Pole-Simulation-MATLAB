@@ -150,7 +150,7 @@ Simulink model that:
 
 ### Prerequisites
 
-- MATLAB R2018b or later
+- MATLAB R2024b or higher
 - Simulink
 - Control System Toolbox (for `lqr()` function)
 
