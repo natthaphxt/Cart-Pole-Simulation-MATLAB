@@ -350,22 +350,23 @@ The angle is wrapped to [-π, π] for continuous representation:
 | `README.md` | Project documentation |
 
 ### 8.3 How to Run
+**Step 1:** Download parameters and Simulink into MATLAB workspace
 
-**Step 1:** Load parameters into MATLAB workspace
+**Step 2:** Load parameters into MATLAB workspace
 ```matlab
 run('LQR_Pendulum.m')
 ```
 
-**Step 2:** Open the Simulink model
+**Step 3:** Open the Simulink model
 ```matlab
 open('Sim_CartPole_2024.slx')
 ```
 
-**Step 3:** Run the simulation
+**Step 4:** Run the simulation
 - Click the "Run" button in Simulink
 - Or use command: `sim('Sim_CartPole_2024')`
 
-**Step 4:** Observe results
+**Step 5:** Observe results
 - View real-time animation in Mechanics Explorer
 - Analyze state plots in Scope blocks
 
@@ -597,94 +598,5 @@ Potential extensions of this project include:
 5. ME389 MEM04 PendulumGantry Guideline - Course Materials.
 
 6. MathWorks Documentation - Control System Toolbox, Simscape Multibody.
-
----
-
-## 14. Appendix: MATLAB Code
-
-### LQR_Pendulum.m
-
-```matlab
-%% Cart-Pole System Parameters and LQR Controller Design
-% FRA333 Robot Kinematics Project
-
-%% Physical Parameters
-M = 0.3;        % Cart mass (kg)
-m = 0.15;       % Pendulum mass (kg)
-L = 0.5/2;      % Pole half-length (m) = 0.25 m
-g = 9.81;       % Gravitational acceleration (m/s²)
-b = 0.5;        % Damping coefficient (N·s/m)
-theta0 = 180;   % Initial pendulum angle (degrees) - hanging down
-
-%% Linearized State-Space Model
-% State vector: x = [cart_position, pendulum_angle, cart_velocity, angular_velocity]'
-% Linearized around upright equilibrium (theta = 0)
-
-A = [0 0 1 0;
-     0 0 0 1;
-     0 3.27  -1.48 0;
-     0 19.62 -2.22 0];
-     
-B = [0;
-     0;
-     2.96;
-     4.444];
-
-%% LQR Controller Design
-% Cost function: J = integral(x'Qx + u'Ru) dt
-
-Q = diag([1, 3, 1, 1]);  % State weighting matrix
-                          % [position, angle, velocity, angular_velocity]
-                          % Higher weight on angle (Q22=3) for tighter angle control
-
-R = 0.1;                  % Control effort weight
-                          % Lower R = more aggressive control
-
-% Compute optimal feedback gain
-K = lqr(A, B, Q, R);
-
-%% Switching Thresholds
-theta_threshold = 0.3;   % Angle threshold for switching to LQR (rad) ≈ 17°
-omega_threshold = 1.5;   % Angular velocity threshold (rad/s)
-
-%% Display Results
-disp('=== Cart-Pole LQR Controller ===');
-disp(['Cart Mass (M): ', num2str(M), ' kg']);
-disp(['Pendulum Mass (m): ', num2str(m), ' kg']);
-disp(['Pole Half-Length (L): ', num2str(L), ' m']);
-disp(' ');
-disp('LQR Gain Matrix K:');
-disp(K);
-disp(' ');
-disp(['Angle Threshold: ', num2str(theta_threshold), ' rad']);
-```
-
-### Energy Calculation (Stateflow)
-
-```matlab
-% Inside Stateflow Chart - Swing-Up Controller
-% Inputs: x_dot (cart velocity), theta (angle), omega (angular velocity)
-
-% Physical constants
-m = 0.15;       % Pendulum mass
-g = 9.81;       % Gravity
-L = 0.25;       % Pole half-length
-
-% Target energy at upright position
-E_target = m * g * L;
-
-% Current total energy (kinetic + potential)
-E_kinetic = 0.5 * m * (x_dot^2 + 2*x_dot*L*cos(theta)*omega + L^2*omega^2);
-E_potential = m * g * L * cos(theta);
-E_current = E_kinetic + E_potential;
-
-% Control law
-k = 10;         % Control gain
-F_swing = k * omega * (E_current - E_target);
-
-% Saturation
-F_max = 3.5;    % Maximum force for swing-up
-F_swing = max(min(F_swing, F_max), -F_max);
-```
 
 ---
