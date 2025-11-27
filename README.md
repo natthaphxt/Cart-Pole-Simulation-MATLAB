@@ -241,6 +241,7 @@ This project illustrates key control concepts: energy-based control, optimal con
 1. Anderson, B. D., & Moore, J. B. (1990). *Optimal Control: Linear Quadratic Methods*
 2. Åström, K. J., & Furuta, K. (2000). Swinging up a pendulum by energy control. *Automatica*, 36(2), 287-295.
 3. Ogata, K. (2010). *Modern Control Engineering*
+4. ME389 MEM04 PendulumGantry Guideline
 
 ---
 
