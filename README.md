@@ -24,7 +24,27 @@ This project implements a hybrid control system for the cart-pole (inverted pend
 
 ---
 
-## 2. System Description
+## 2. Project Scope
+
+### Scope of Work
+
+1. Mathematical modeling of the cart-pole system dynamics using Lagrangian mechanics
+2. Linearization of the nonlinear system around the upright equilibrium for LQR design
+3. Implementation of energy-based swing-up control in Simulink
+4. Design and tuning of LQR controller using MATLAB's Control System Toolbox
+5. Development of switching logic based on angle threshold
+6. Simulation-based validation and performance analysis
+
+### Limitations
+
+- This project is limited to simulation in MATLAB/Simulink; no physical hardware implementation
+- The cart track is assumed to be infinite (no position constraints)
+- External disturbances are not explicitly modeled
+- Simscape Multibody is used for physical modeling
+
+---
+
+## 3. System Description
 
 ### Physical Parameters
 
@@ -42,7 +62,7 @@ This project implements a hybrid control system for the cart-pole (inverted pend
 
 ---
 
-## 3. Methodology
+## 4. Methodology
 
 ### Control Strategy
 
@@ -55,20 +75,25 @@ The swing-up controller uses the concept of energy manipulation to bring the pen
 **Principle:** The total mechanical energy of the pendulum at the upright position is:
 
 ```
-E_target = m × g × L (potential energy at top)
+E_target = m × g × L
 ```
 
-The controller calculates the current energy and compares it to the target:
+The controller calculates the current energy (including cart velocity contribution):
 
 ```
-E_current = (1/2) × m × L² × θ̇² + m × g × L × (1 - cos(θ))
-E_error = E_current - E_target
+E_current = 0.5 × m × (ẋ² + 2×ẋ×L×cos(θ)×ω + L²×ω²) + m×g×L×cos(θ)
 ```
+
+Where:
+- `ẋ` = cart velocity
+- `ω` = angular velocity (θ̇)
+- `θ` = pendulum angle
 
 **Control Law:**
 ```
-u = k × E_error × sign(θ̇ × cos(θ))
+F = k × ω × (E_current - E_target)
 ```
+With gain `k = 10` and force saturation `|F| ≤ 3.5 N`
 
 This strategy:
 - Adds energy when pendulum swings toward upright (same direction as motion)
@@ -90,8 +115,9 @@ Where:
 
 **Control Law:**
 ```
-u = -Kx = -[K₁, K₂, K₃, K₄] × [x, θ, ẋ, θ̇]ᵀ
+F = -K × [x, θ, ẋ, ω]ᵀ
 ```
+With force saturation `|F| ≤ 10 N`
 
 The gain matrix K is computed by solving the Riccati equation, which MATLAB's `lqr()` function handles automatically.
 
@@ -106,6 +132,14 @@ The gain matrix K is computed by solving the Riccati equation, which MATLAB's `l
 - Optimal balance between performance and control effort
 - Works well for linear systems near equilibrium
 - Easy to tune via Q and R matrices
+
+#### 3. Angle Wrapping
+
+The angle is wrapped to [-π, π] using:
+```
+θ_wrapped = atan2(sin(θ), cos(θ))
+```
+This ensures continuous angle representation for the controller.
 
 ### Linearized Model
 
@@ -126,13 +160,17 @@ K = lqr(A, B, Q, R);
 
 ### Switching Conditions
 
-Mode switches to LQR when both conditions are met:
-- |θ| < 0.3 rad (≈17.2°)
-- |ω| < 1.5 rad/s
+Mode switches to LQR when the angle condition is satisfied:
+
+| Threshold | Value | Description |
+|-----------|-------|-------------|
+| Angle | \|θ\| < 0.262 rad (15°) | Pendulum is close to upright |
+
+The angle is wrapped using `atan2(sin(θ), cos(θ))` to ensure continuous representation.
 
 ---
 
-## 4. Implementation
+## 5. Implementation
 
 ### Requirements
 - MATLAB R2024b+
@@ -144,19 +182,19 @@ Mode switches to LQR when both conditions are met:
 | File | Description |
 |------|-------------|
 | `LQR_Pendulum.m` | Defines parameters and computes LQR gain |
-| `CartPole.slx` | Simulink model with controllers and dynamics |
+| `Sim_CartPole_2024.slx` | Simulink model with controllers and dynamics |
 
 ### How to Run
 
 ```matlab
-run('LQR_Pendulum.m')    % Load parameters
-open('CartPole.slx')      % Open model
+run('LQR_Pendulum.m')         % Load parameters
+open('Sim_CartPole_2024.slx') % Open model
 % Click Run in Simulink
 ```
 
 ---
 
-## 5. Experimental Results
+## 6. Experimental Results
 
 ### Simulation Phases
 
@@ -177,9 +215,9 @@ open('CartPole.slx')      % Open model
 
 ### Simulation Video
 
-[![Demo Video](./demo.webp)](Swingup_Stabilize.mp4)
+![Cart-Pole Swing-Up and Stabilization](Swingup_Stabilize.mp4)
 
-*Video: Cart-pole swing-up and stabilization demonstration*
+*Animation: Cart-pole swing-up and stabilization demonstration*
 
 ### Simulation Plots
 
@@ -187,7 +225,7 @@ open('CartPole.slx')      % Open model
 
 ---
 
-## 6. Conclusion
+## 7. Conclusion
 
 The hybrid control system successfully demonstrates:
 - Energy-based swing-up from hanging position
@@ -203,7 +241,7 @@ This project illustrates key control concepts: energy-based control, optimal con
 1. Anderson, B. D., & Moore, J. B. (1990). *Optimal Control: Linear Quadratic Methods*
 2. Åström, K. J., & Furuta, K. (2000). Swinging up a pendulum by energy control. *Automatica*, 36(2), 287-295.
 3. Ogata, K. (2010). *Modern Control Engineering*
-4. ME389 MEM04 PendulumGantry Guideline
+
 ---
 
 ## Appendix: MATLAB Code
