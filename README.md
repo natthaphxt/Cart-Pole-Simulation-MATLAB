@@ -600,3 +600,9 @@ Potential extensions of this project include:
 6. MathWorks Documentation - Control System Toolbox, Simscape Multibody.
 
 ---
+
+## 14. References
+![Swingup & Stabilize Video](Swingup_Stabilize.mp4)
+
+*Animation: Cart-pole swing-up and stabilization*
+---
