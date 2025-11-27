@@ -183,6 +183,7 @@ This strategy:
 ---
 
 ## 5. System Architecture
+![description](images/System_Architecture.png)
 
 ### 5.1 Symbol Definitions
 
@@ -222,13 +223,12 @@ This is why the LQR controller is only activated when the pendulum is close to u
 
 ---
 
-## 6. System Diagram
+## 6. Block Diagram
 
 ### 6.1 Overall Control Architecture
-
+![description](images/Block_Diagram.png)
 ### 6.2 Simulink Block Diagram Structure
-
-
+![description](images/myphoto.png)
 ### 6.3 Control Flow Diagram
 
 ```
