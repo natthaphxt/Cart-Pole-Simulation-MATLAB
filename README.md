@@ -177,7 +177,7 @@ open('CartPole.slx')      % Open model
 
 ### Simulation Video
 
-[![Demo Video](./demo.webp)](https://youtu.be/dQTII64_-kc)
+[![Demo Video](./demo.webp)](Swingup_Stabilize.mp4)
 
 *Video: Cart-pole swing-up and stabilization demonstration*
 
