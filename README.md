@@ -688,5 +688,3 @@ F_swing = max(min(F_swing, F_max), -F_max);
 ```
 
 ---
-
-*Last Updated: November 2024*
