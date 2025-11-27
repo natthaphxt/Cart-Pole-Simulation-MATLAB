@@ -601,8 +601,9 @@ Potential extensions of this project include:
 
 ---
 
-## 14. References
-![Swingup & Stabilize Video](Swingup_Stabilize.mp4)
+## 14. Video testing
+
+[![Watch the video](https://img.youtube.com/vi/dQTII64_-kc/maxresdefault.jpg)](https://www.youtube.com/watch?v=dQTII64_-kc)
 
 *Animation: Cart-pole swing-up and stabilization*
 ---
