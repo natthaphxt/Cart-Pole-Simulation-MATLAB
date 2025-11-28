@@ -183,7 +183,7 @@ This strategy:
 ---
 
 ## 5. System Architecture
-![description](images/System_Architecture.png)
+![System Architecture](images/System_Architecture.png)
 
 ### 5.1 Symbol Definitions
 
@@ -228,51 +228,7 @@ This is why the LQR controller is only activated when the pendulum is close to u
 ### 6.1 Overall Control Architecture
 ![description](images/Block_Diagram.png)
 ### 6.2 Simulink Block Diagram Structure
-![description](images/myphoto.png)
-### 6.3 Control Flow Diagram
-
-```
-                              ┌─────────────────┐
-                              │      START      │
-                              │   θ₀ = 180°     │
-                              └────────┬────────┘
-                                       │
-                                       ▼
-                              ┌─────────────────┐
-                              │  Calculate      │
-                              │  E_current      │
-                              └────────┬────────┘
-                                       │
-                                       ▼
-                              ┌─────────────────┐
-                              │  Swing-Up Mode  │
-                              │  F = k·ω·ΔE     │
-                              │  |F| ≤ 3.5 N    │
-                              └────────┬────────┘
-                                       │
-                                       ▼
-                            ┌──────────────────────┐
-                           ╱                        ╲
-                          ╱    |θ_wrapped| < 15°     ╲───No───┐
-                          ╲                          ╱        │
-                           ╲                        ╱         │
-                            └──────────┬───────────┘          │
-                                       │                      │
-                                      Yes                     │
-                                       │                      │
-                                       ▼                      │
-                              ┌─────────────────┐             │
-                              │    LQR Mode     │             │
-                              │   F = -K·x      │             │
-                              │  |F| ≤ 10 N     │             │
-                              └────────┬────────┘             │
-                                       │                      │
-                                       ▼                      │
-                              ┌─────────────────┐             │
-                              │   Stabilized    │◀────────────┘
-                              │   at θ ≈ 0°     │
-                              └─────────────────┘
-```
+![description](images/Plant.png)
 
 ---
 
@@ -411,7 +367,12 @@ omega_threshold = 1.5;   % Angular velocity threshold (rad/s)
 ---
 
 ## 9. Experimental Results
+![description](images/theta.png)
+*Results: theta*
 
+
+![description](images/omega.png)
+*Results: omega*
 ### 9.1 Simulation Phases
 
 | Phase | Time Period | Description |
