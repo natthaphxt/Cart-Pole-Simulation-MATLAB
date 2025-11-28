@@ -54,7 +54,7 @@ This project implements a hybrid control system for the cart-pole (inverted pend
 - Create an ideal system model without considering friction and damping effects on the pendulum
 - Include ground friction for the cart
 - Pendulum angle constraint: within ±10 degrees (for stabilization)
-- Cart travel range is limited
+- Cart travel range is limited (2 meters)
 - Cart starting position is always at the center (x = 0)
 
 ### 2.2 Controller Design
