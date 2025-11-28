@@ -16,6 +16,3 @@ B = [0;
 Q = diag([1, 3, 1, 1]);  
 R = 0.1;                   
 K = lqr(A, B, Q, R);
-
-theta_threshold = 0.3;   
-omega_threshold = 1.5;  
