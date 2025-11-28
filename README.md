@@ -183,7 +183,7 @@ This strategy:
 ---
 
 ## 5. System Architecture
-![System Architecture](images/System_Architecture.png)
+![System Architecture](System_Architecture.png)
 
 ### 5.1 Symbol Definitions
 
@@ -226,9 +226,9 @@ This is why the LQR controller is only activated when the pendulum is close to u
 ## 6. Block Diagram
 
 ### 6.1 Overall Control Architecture
-![description](images/Block_Diagram.png)
+![description](Block_Diagram.png)
 ### 6.2 Simulink Block Diagram Structure
-![description](images/Plant.png)
+![description](Plant.png)
 
 ---
 
@@ -345,9 +345,6 @@ theta0 = 180;   % Initial angle (degrees) - hanging down
 Q = diag([1, 3, 1, 1]);  % State weights
 R = 0.1;                  % Control effort weight
 
-% Switching Thresholds
-theta_threshold = 0.3;   % Angle threshold (rad)
-omega_threshold = 1.5;   % Angular velocity threshold (rad/s)
 ```
 
 ### 8.5 Simulink Model Components
@@ -367,11 +364,11 @@ omega_threshold = 1.5;   % Angular velocity threshold (rad/s)
 ---
 
 ## 9. Experimental Results
-![description](images/theta.png)
+![description](theta.png)
 *Results: theta*
 
 
-![description](images/omega.png)
+![description](omega.png)
 *Results: omega*
 ### 9.1 Simulation Phases
 
@@ -564,7 +561,17 @@ Potential extensions of this project include:
 
 ## 14. Video testing
 
-[![Watch the video](https://img.youtube.com/vi/dQTII64_-kc/maxresdefault.jpg)](https://www.youtube.com/watch?v=dQTII64_-kc)
+### Swing-Up and Stabilization Test
 
-*Animation: Cart-pole swing-up and stabilization*
+Click the image below to watch the simulation video on YouTube:
+
+[![Cart-Pole Swing-Up and Stabilization Demo](https://img.youtube.com/vi/dQTII64_-kc/0.jpg)](https://www.youtube.com/watch?v=dQTII64_-kc)
+
+**Video Description:** This video demonstrates the cart-pole system performing:
+1. Energy-based swing-up from the hanging position (θ = 180°)
+2. Automatic switching to LQR control
+3. Stabilization at the inverted position (θ = 0°)
+
+> 📺 **[Click here to watch on YouTube](https://www.youtube.com/watch?v=dQTII64_-kc)**
+
 ---
